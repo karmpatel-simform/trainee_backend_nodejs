@@ -5,6 +5,7 @@ import path from 'path';
 import productRoutes from './routes/productRoutes.js';
 import { connection } from './db/db.js'
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,6 +15,8 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
