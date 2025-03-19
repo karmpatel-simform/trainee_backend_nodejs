@@ -70,7 +70,7 @@ First, clone the backend repository:
 
 ```bash
 git clone <url>
-cd trainne_backend_nodejs
+cd trainee_backend_nodejs
 ```
 
 ### 2. Set Up Environment Variables
