@@ -11,9 +11,6 @@ This is the backend setup for the Trainee project. It provides the necessary con
 - **MySQL**: 8.0
 
 ---
-
----
-
 ## Node.js Installation (Ubuntu)
 
 To install Node.js on Ubuntu, we recommend using `nvm` (Node Version Manager) to manage different versions of Node.js.
@@ -73,7 +70,7 @@ First, clone the backend repository:
 
 ```bash
 git clone <url>
-cd trainne_backend_nodejs
+cd trainee_backend_nodejs
 ```
 
 ### 2. Set Up Environment Variables
