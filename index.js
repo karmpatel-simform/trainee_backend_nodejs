@@ -22,19 +22,6 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-connection.connect(error => {
-    if (error) throw error;
-    console.log("Successfully connected to the database.");
-});
-    
-connection.query('SELECT * FROM products', (error, results) => {
-    if (error) throw error;
-    console.log(results);
-});
-    
-
-
 app.get('/',(req,res) => {
     res.end("Hello from Backend Server.")
 });
