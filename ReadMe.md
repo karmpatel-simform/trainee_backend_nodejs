@@ -101,7 +101,21 @@ Or with `yarn`:
 yarn install
 ```
 
-### 4. Start the Server
+### 4. Backend Seeding
+
+Run this Backend Seeding Script 
+
+```bash
+npm run seed
+```
+
+Or with `yarn`:
+
+```bash
+yarn run seed
+```
+
+### 5. Start the Server
 
 After installing dependencies, you can start the backend server:
 
