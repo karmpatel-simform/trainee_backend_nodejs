@@ -83,6 +83,8 @@ DBHOST=your_database_host_here
 DBUSER=your_database_user_here
 DBPASSWORD=your_database_password_here
 DATABASE=your_database_name_here
+JWT_SECRET=your_jwt_seassion_secret
+JWT_EXPIRE=7d
 ```
 
 Make sure to replace the placeholders (`your_port_here`, `your_database_host_here`, `your_database_user_here`, `your_database_password_here`, `your_database_name_here`) with the actual values for your environment.
