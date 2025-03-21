@@ -1,5 +1,5 @@
 import express from 'express';
-import { connection } from '../db/db.js';
+import { connection } from '../db/sdb.js';
 
 const router = express.Router();
 
@@ -15,9 +15,8 @@ connection.connect(error => {
   }
 });
 
-// Add product route - now accepts an image URL directly
 router.post('/add', (req, res) => {
-  const { name, description, price, image } = req.body; // Expect image as URL in the body
+  const { name, description, price, image } = req.body;
 
   if (!image) {
     return res.status(400).json({ message: 'Image URL is required' });
@@ -33,7 +32,6 @@ router.post('/add', (req, res) => {
   });
 });
 
-// Get all products
 router.get('/get', (req, res) => {
   const query = 'SELECT * FROM products';
   db.query(query, (err, results) => {
@@ -48,9 +46,10 @@ router.get('/get', (req, res) => {
     res.status(200).json(results);
   });
 });
-// Edit product route - now accepts an image URL directly
+
+
 router.put('/edit/:id', (req, res) => {
-  const productId = req.params.id; // Get the productId from the route parameter
+  const productId = req.params.id; 
   const { name, description, price, image, oldImage } = req.body; 
 
   let queryParams = [name, description, price,image, productId];
@@ -58,14 +57,12 @@ router.put('/edit/:id', (req, res) => {
   if (image) {
     queryParams[3] = image;
   } else {
-    // If no new image, keep the old image
     queryParams[3] = oldImage;
   }
 
-  // SQL query to update the product
   const query = 'UPDATE products SET name = ?, description = ?, price = ?, image = ? WHERE id = ?';
 
-  // Execute the query
+
   db.query(query, queryParams, (err, result) => {
     if (err) {
       return res.status(500).json({ message: 'Error updating product', error: err });

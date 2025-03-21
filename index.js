@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import path from 'path';
 import productRoutes from './routes/productRoutes.js';
-import { connection } from './db/db.js'
+import authRoutes from './routes/authRoutes.js'
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 
@@ -27,6 +27,7 @@ app.get('/',(req,res) => {
 });
 
 app.use('/api/products', productRoutes);
+app.use('/api/auth', authRoutes);
 
 app.listen(port, ()=> {
     console.log(`Server is Running on http://localhost:${port}`);

@@ -1,4 +1,4 @@
-import { connection } from './db.js';  // Assuming connection is already set up
+import { connection } from './sdb.js';  // Assuming connection is already set up
 import fs from 'fs';
 
 // Function to clean the SQL content (removes comments and extra semicolons)
