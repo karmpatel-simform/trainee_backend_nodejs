@@ -61,6 +61,8 @@ For installation instructions for other operating systems (macOS, Windows), foll
 - [Installing NVM for macOS](https://github.com/nvm-sh/nvm#install--update-script)
 - [Installing NVM for Windows](https://github.com/coreybutler/nvm-windows)
 
+## MySQL Installation Guide
+Follow [this](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04) Guide It will help to setUp MySQL Database 
 
 ## Installation Guide
 
