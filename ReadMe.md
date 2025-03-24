@@ -132,3 +132,19 @@ yarn start
 ```
 
 
+### 5. Build the Application
+
+After installing dependencies, you can build the backend server:
+
+```bash
+npm run build
+```
+
+Or with `yarn`:
+
+```bash
+yarn run build
+```
+
+
+
