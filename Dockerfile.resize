@@ -1,0 +1,39 @@
+FROM node:22-alpine AS build
+
+ARG APORT
+ARG ADBHOST
+ARG ADBUSER
+ARG ADBPASSWORD
+ARG ADATABASE
+ARG AJWT_SECRET
+ARG AJWT_EXPIRE
+
+WORKDIR /usr/src/app
+
+ENV PORT $APORT
+ENV DBHOST $ADBHOST
+ENV DBUSER $ADBUSER
+ENV DBPASSWORD $ADBPASSWORD
+ENV DATABASE $ADATABASE
+ENV JWT_SECRET $AJWT_SECRET
+ENV JWT_EXPIRE $AJWT_EXPIRE
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+
+FROM node:22-alpine AS production
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/dist /usr/src/app
+COPY --from=build /usr/src/app/node_modules /usr/src/app/node_modules
+
+EXPOSE 3300
+
+ENTRYPOINT ["node", "bundle.js"]

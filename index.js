@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import productRoutes from './routes/productRoutes.js';
 import authRoutes from './routes/authRoutes.js'
+import redisRoutes from './routes/redisRoutes.js'
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 
@@ -28,6 +29,7 @@ app.get('/',(req,res) => {
 
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/cart',redisRoutes)
 
 app.listen(port, ()=> {
     console.log(`Server is Running on http://localhost:${port}`);

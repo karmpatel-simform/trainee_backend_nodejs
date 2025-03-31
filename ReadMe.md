@@ -146,5 +146,48 @@ Or with `yarn`:
 yarn run build
 ```
 
+docker run --network backend-network \
+  --name redis-stack \
+  -p 6379:6379 -p 8001:8001 \
+  -v redis:/var/lib/redis \
+  -d redis:latest
 
 
+docker run --network backend-network \
+  --name mysql-samp \
+  -e MYSQL_ROOT_PASSWORD=Passwd@1234 \
+  -e MYSQL_DATABASE=mydb \
+  -e MYSQL_USER=mysqluser \
+  -e MYSQL_PASSWORD=Passwd@1234 \
+  -v mydb:/var/lib/mysql \
+  -d mysql:latest
+
+
+docker run --network backend-network \
+  -e PORT=3300 \
+  -e DBHOST=mysql-samp \
+  -e DBUSER=mysqluser \
+  -e DBPASSWORD=Passwd@1234 \
+  -e DATABASE=mydb \
+  -e JWT_SECRET=jwt_secret \
+  -e JWT_EXPIRE=7d\
+  -p 3300:3300 \
+  karmpatel/backend
+
+
+docker run --network backend-network \
+  -e PORT=3300 \
+  -e DBHOST=mysql-samp \
+  -e DBUSER=mysqluser \
+  -e DBPASSWORD=Passwd@1234 \
+  -e DATABASE=mydb \
+  -e JWT_SECRET=jwt_secret \
+  -e JWT_EXPIRE=7d\
+  karmpatel/backend2
+
+docker run -e PORT=3300 -e DBHOST='localhost' -e DBUSER='sqluser' -e DBPASSWORD='Passwd@1234' -e DATABASE='mydb' -e JWT_SECRET='jwtsessions' -e JWT_EXPIRE='7d' --network=host karmpatel/backend
+
+
+docker run -e VITE_BACKENDURL=http://localhost:3300 --network backend-network  -p 5173:5173 karmpatel/frontend2
+
+docker run -e VITE_BACKENDURL=http://localhost:3300 --network backend-network  -p 5173:5173 karmpatel/frontendm

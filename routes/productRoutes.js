@@ -74,5 +74,21 @@ router.put('/edit/:id', (req, res) => {
   });
 });
 
-export default router;
+// DELETE Product
+router.delete('/delete/:id', (req, res) => {
+  const productId = req.params.id;
 
+  const query = 'DELETE FROM products WHERE id = ?';
+
+  db.query(query, [productId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error deleting product', error: err });
+    } else if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Product not found' });
+    } else {
+      return res.status(200).json({ message: 'Product deleted successfully' });
+    }
+  });
+});
+
+export default router;
