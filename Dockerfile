@@ -26,4 +26,7 @@ COPY . .
 
 EXPOSE 3300
 
-CMD ["npm", "start"]
+
+ENTRYPOINT sleep 5 && npm run seed && npm start
+
+

@@ -1,0 +1,45 @@
+FROM node:22-alpine AS build
+
+ARG APORT
+ARG ADBHOST
+ARG ADBUSER
+ARG ADBPASSWORD
+ARG ADATABASE
+ARG AJWT_SECRET
+ARG AJWT_EXPIRE
+ARG DD_GIT_REPOSITORY_URL
+ARG DD_GIT_COMMIT_SHA
+
+WORKDIR /usr/src/app
+
+ENV PORT $APORT
+ENV DBHOST $ADBHOST
+ENV DBUSER $ADBUSER
+ENV DBPASSWORD $ADBPASSWORD
+ENV DATABASE $ADATABASE
+ENV JWT_SECRET $AJWT_SECRET
+ENV JWT_EXPIRE $AJWT_EXPIRE
+ENV DD_GIT_REPOSITORY_URL=${DD_GIT_REPOSITORY_URL} 
+ENV DD_GIT_COMMIT_SHA=${DD_GIT_COMMIT_SHA}
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+
+FROM node:22-alpine AS production
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/dist /usr/src/app
+COPY --from=build /usr/src/app/node_modules /usr/src/app/node_modules
+
+CMD DD_APM_INSTRUMENTATION_LIBRARIES=java:1,python:3,js:5,php:1,dotnet:3 DD_APM_INSTRUMENTATION_ENABLED=docker DD_NO_AGENT_INSTALL=true bash -c "$(curl -L https://install.datadoghq.com/scripts/install_script_agent7.sh)"
+
+EXPOSE 3300
+
+ENTRYPOINT ["node", "bundle.js"]

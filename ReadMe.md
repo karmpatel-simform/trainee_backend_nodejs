@@ -154,6 +154,11 @@ docker run --network backend-network \
 
 
 docker run --network backend-network \
+  --name redis-stack \
+  -v redis:/var/lib/redis \
+  -d redis:latest
+
+docker run --network backend-network \
   --name mysql-samp \
   -e MYSQL_ROOT_PASSWORD=Passwd@1234 \
   -e MYSQL_DATABASE=mydb \
@@ -164,6 +169,7 @@ docker run --network backend-network \
 
 
 docker run --network backend-network \
+  --name mybackend \
   -e PORT=3300 \
   -e DBHOST=mysql-samp \
   -e DBUSER=mysqluser \
@@ -172,8 +178,38 @@ docker run --network backend-network \
   -e JWT_SECRET=jwt_secret \
   -e JWT_EXPIRE=7d\
   -p 3300:3300 \
-  karmpatel/backend
+  -d karmpatel/backend
 
+  docker run --network backend-network \
+  -e PORT=3300 \
+  -e DBHOST=mysql-samp \
+  -e DBUSER=mysqluser \
+  -e DBPASSWORD=Passwd@1234 \
+  -e DATABASE=mydb \
+  -e JWT_SECRET=jwt_secret \
+  -e JWT_EXPIRE=7d\
+  -p 3400:3300 \
+  karmpatel/backendm
+
+docker run --network backend-network \
+  --rm \
+  -e PORT=3300 \
+  -e DBHOST=mysql-samp \
+  -e DBUSER=mysqluser \
+  -e DBPASSWORD=Passwd@1234 \
+  -e DATABASE=mydb \
+  -e JWT_SECRET=jwt_secret \
+  -e JWT_EXPIRE=7d \
+  -e REDISHOST=redis-stack \
+  -p 3300:3300 \
+  karmpatel/backendsh
+
+
+docker run --network backend-network \
+  --rm \
+  --env-file .env \
+  -p 3300:3300 \
+  karmpatel/backendsh
 
 docker run --network backend-network \
   -e PORT=3300 \
@@ -191,3 +227,12 @@ docker run -e PORT=3300 -e DBHOST='localhost' -e DBUSER='sqluser' -e DBPASSWORD=
 docker run -e VITE_BACKENDURL=http://localhost:3300 --network backend-network  -p 5173:5173 karmpatel/frontend2
 
 docker run -e VITE_BACKENDURL=http://localhost:3300 --network backend-network  -p 5173:5173 karmpatel/frontendm
+
+
+docker run --rm -e VITE_BACKENDURL=http://localhost:3300 --network backend-network --name vitefrontend  -v nginxlog:/var/log/nginx --link mybackend:karmpatel/backend -p 5173:80 -d karmpatel/volfrontendm
+
+docker run --rm --network backend-network --name vitefrontend  -v nginxlog:/var/log/nginx -p 5173:80 -d karmpatel/volfrontendm
+
+docker run --rm --network backend-network --name permfrontend -v nginxlog:/var/log/nginx -p 5174:80 -d karmpatel/permfrontend
+
+docker run --rm --network backend-network --name permfrontend2 -v nginxlog:/var/log/nginx -p 5176:80 -d karmpatel/permfrontend
