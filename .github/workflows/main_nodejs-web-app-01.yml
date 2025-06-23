@@ -45,7 +45,6 @@ jobs:
       - name: 🗂️ Create deployment package
         run: |
           # Remove development dependencies and unnecessary files
-          rm -rf node_modules/.cache
           rm -rf .git
           rm -rf .github
           rm -rf tests
@@ -53,7 +52,7 @@ jobs:
           rm -rf .env.example
           
           # Create deployment zip
-          zip -r release.zip . -x "*.git*" "node_modules/.cache/*" "*.md" ".env.example"
+          zip -r release.zip . -x "*.git*"
           
       - name: 📤 Upload artifact for deployment job
         uses: actions/upload-artifact@v4
