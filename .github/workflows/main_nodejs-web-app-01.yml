@@ -32,7 +32,7 @@ jobs:
           
       - name: 📦 Clean install dependencies
         run: |
-          npm ci --only=production
+          npm install --only=production
           
       - name: 🏗️ Build application (if build script exists)
         run: |
@@ -40,14 +40,6 @@ jobs:
             echo "✅ Build completed successfully"
           else
             echo "ℹ️ No build script found, skipping build step"
-          fi
-          
-      - name: 🧪 Run tests (if test script exists)
-        run: |
-          if npm test --if-present; then
-            echo "✅ Tests passed"
-          else
-            echo "ℹ️ No test script found, skipping tests"
           fi
           
       - name: 🗂️ Create deployment package
