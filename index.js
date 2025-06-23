@@ -57,12 +57,7 @@ const corsOptions = {
         // Allow requests with no origin (mobile apps, Postman, etc.)
         if (!origin) return callback(null, true);
 
-        const allowedOrigins = [
-            'http://localhost:3000',
-            'http://localhost:3001',
-            'https://your-frontend-domain.com', // Replace with your actual frontend domain
-            // Add more allowed origins as needed
-        ];
+        const allowedOrigins = ["*"];
 
         // In production, be more restrictive
         if (isProduction) {
